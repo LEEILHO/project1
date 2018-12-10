@@ -5,8 +5,11 @@ var mongoose = require('mongoose'),
 var schema = new Schema({
   author: { type: Schema.Types.ObjectId, ref: 'User' },
   title: {type: String, trim: true, required: true},
-  content: {type: String, trim: true, required: true},
-  tags: [String],
+  summary: {type: String, trim: true, required: true},
+  organizer : {type: String},
+  categori: {type: String},
+  objects: {type:String},
+  phone: {type: String},
   numLikes: {type: Number, default: 0},
   numAnswers: {type: Number, default: 0},
   numReads: {type: Number, default: 0},
@@ -16,6 +19,6 @@ var schema = new Schema({
   toObject: {virtuals: true}
 });
 schema.plugin(mongoosePaginate);
-var Question = mongoose.model('Question', schema);
+var Enroll = mongoose.model('Enroll', schema);
 
 module.exports = Question;
