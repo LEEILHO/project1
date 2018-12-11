@@ -1,5 +1,6 @@
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+var mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+var Schema = mongoose.Schema;
 
 var schema = new Schema({
   name: {type: String, required: true, trim: true},

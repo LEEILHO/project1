@@ -1,10 +1,10 @@
 const express = require('express');
 const User = require('../models/user');
 const router = express.Router();
-const catchErrors = require('../lib/async-error')
+const catchErrors = require('../lib/async-error');
 
 function needAuth(req, res, next) {
-  if (req.inAuthenticated()) {
+  if (req.isAuthenticated()) {
     next();
   } else {  
     req.flash('danger', 'Please signin first.');
