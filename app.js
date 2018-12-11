@@ -15,7 +15,7 @@ var users = require('./routes/users');
 var contests = require('./routes/contests');
 
 var app = express();
-var passportConfig = require('./lib/passport-congif')
+var passportConfig = require('./lib/passport-congif');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
