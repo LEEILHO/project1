@@ -12,6 +12,7 @@ var schema = new Schema({
   phone: {type: String, trim:true, required: true},
   tags:[String],
   numLikes: {type: Number, default: 0},
+  numDislikes: {type: Number,default:0},
   numAnswers: {type: Number, default: 0},
   numReads: {type: Number, default: 0},
   createdAt: {type: Date, default: Date.now}

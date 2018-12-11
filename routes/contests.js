@@ -8,13 +8,14 @@ const router = express.Router();
 
 // 동일한 코드가 users.js에도 있습니다. 이것은 나중에 수정합시다.
 function needAuth(req, res, next) {
-  if (req.session.user) {
+  if (req.isAuthenticated()) {
     next();
   } else {
     req.flash('danger', 'Please signin first.');
     res.redirect('/signin');
   }
 }
+
 
 /* GET contests listing. */
 router.get('/', catchErrors(async (req, res, next) => {
@@ -81,7 +82,7 @@ router.delete('/:id', needAuth, catchErrors(async (req, res, next) => {
 }));
 
 router.post('/', needAuth, catchErrors(async (req, res, next) => {
-  const user = req.session.user;
+  const user = req.user;
   var contest = new Contest({
     title: req.body.title,
     author: user._id,

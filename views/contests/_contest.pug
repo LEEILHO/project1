@@ -5,8 +5,10 @@
     | 
 .row
   .col-sm
+  
     .numbers.
       #[span.number.num-votes= contest.numLikes] likes,
+      #[span.number.num-votes= contest.numDislikes] dislikes
       #[span.number.num-answers= contest.numAnswers] answers,
       #[span.number.num-views= contest.numReads] reads
   .col-sm

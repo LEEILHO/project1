@@ -5,14 +5,25 @@ block content
     h1.main-title= contest.title
 
     .contest.show
+      .title=  "이름:" +contest.title
+      .organizer= "주최사:" +contest.organizer
+      .summary= "요강:" +contest.summary
+      .categori= "분야" +contest.categori
+      .objects= "응시대상" +contest.objects
+      .phone= "휴대전화" +contest.phone
+
     include _contest
 
       .buttons
         button.btn.btn-primary #[i.fa.fa-thumbs-up] Like
+        |
+        button.btn.btn-primary #[i.fa.fa-thumbs-down] Dislike
         | 
         a.btn.btn-outline-secondary(href=`/contests/${contest.id}/edit`) Edit
         | 
         a.btn.btn-outline-danger.delete-btn(href="#", data-url=`/contests/${contest.id}?_method=delete`) Delete
+        
+        
       
     if contest.numAnswers > 0
       hr
