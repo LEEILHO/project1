@@ -2,26 +2,26 @@ extends ../layout
 
 block content
   .container
-    h1.main-title= question.title
+    h1.main-title= contest.title
 
-    .question.show
-    include _question
+    .contest.show
+    include _contest
 
       .buttons
         button.btn.btn-primary #[i.fa.fa-thumbs-up] Like
         | 
-        a.btn.btn-outline-secondary(href=`/questions/${question.id}/edit`) Edit
+        a.btn.btn-outline-secondary(href=`/contests/${contest.id}/edit`) Edit
         | 
-        a.btn.btn-outline-danger.delete-btn(href="#", data-url=`/questions/${question.id}?_method=delete`) Delete
+        a.btn.btn-outline-danger.delete-btn(href="#", data-url=`/contests/${contest.id}?_method=delete`) Delete
       
-    if question.numAnswers > 0
+    if contest.numAnswers > 0
       hr
-      h3 #{question.numAnswers} Answer(s)
+      h3 #{contest.numAnswers} Answer(s)
       .answers.show
         each answer in answers
           include _answer
 
-    form(action=`/questions/${question.id}/answers`, method='POST')
+    form(action=`/contests/${contest.id}/answers`, method='POST')
       .form-group
         label(for='answer') Your Answer
         textarea.form-control(name="content", rows="5")

@@ -1,0 +1,21 @@
+.form-group
+  label(for="title") Contest Title
+  input.form-control(type="text", name="title", placeholder="What's your contest?", value=contest.title)
+.form-group
+  label(for="summary") contest summary
+  textarea.form-control(name="summary", rows="5")= contest.summary
+.form-group
+  label(for="objects") contest 응시대상
+  textarea.form-control(name="objects", rows="3")= contest.objects
+.form-group
+  label(for="phone") contest 전화번호
+  textarea.form-control(name="phone", rows="1")= contest.phone
+.form-group
+  label(for="organizer") contest 주최사
+  textarea.form-control(name="organizer", rows="1")= contest.organizer
+.form-group
+  label(for="categori") contest 분야
+  textarea.form-control(name="categori", rows="5")= contest.categori
+.form-group
+  label(for="tags") Tags
+  input.form-control(type="text", name="tags", placeholder="tags separated by spaces", value=contest.tags ? contest.tags.join(" ") : "")

@@ -1,5 +1,5 @@
 const express = require('express');
-const Question = require('../models/question');
+const Contest = require('../models/contest');
 // const User = require('../models/user'); 
 const Answer = require('../models/answer'); 
 const catchErrors = require('../lib/async-error');
@@ -16,7 +16,7 @@ function needAuth(req, res, next) {
   }
 }
 
-/* GET questions listing. */
+/* GET contests listing. */
 router.get('/', catchErrors(async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
@@ -29,86 +29,94 @@ router.get('/', catchErrors(async (req, res, next) => {
       {content: {'$regex': term, '$options': 'i'}}
     ]};
   }
-  const questions = await Question.paginate(query, {
+  const contests = await Contest.paginate(query, {
     sort: {createdAt: -1}, 
     populate: 'author', 
     page: page, limit: limit
   });
-  res.render('questions/index', {questions: questions, query: req.query});
+  res.render('contests/index', {contests: contests, query: req.query});
 }));
 
 router.get('/new', needAuth, (req, res, next) => {
-  res.render('questions/new', {question: {}});
+  res.render('contests/new', {contest: {}});
 });
 
 router.get('/:id/edit', needAuth, catchErrors(async (req, res, next) => {
-  const question = await Question.findById(req.params.id);
-  res.render('questions/edit', {question: question});
+  const contest = await Contest.findById(req.params.id);
+  res.render('contests/edit', {contest: contest});
 }));
 
 router.get('/:id', catchErrors(async (req, res, next) => {
-  const question = await Question.findById(req.params.id).populate('author');
-  const answers = await Answer.find({question: question.id}).populate('author');
-  question.numReads++;    // TODO: 동일한 사람이 본 경우에 Read가 증가하지 않도록???
-  await question.save();
-  res.render('questions/show', {question: question, answers: answers});
+  const contest = await Contest.findById(req.params.id).populate('author');
+  const answers = await Answer.find({contest: contest.id}).populate('author');
+  contest.numReads++;    // TODO: 동일한 사람이 본 경우에 Read가 증가하지 않도록???
+  await contest.save();
+  res.render('contests/show', {contest: contest, answers: answers});
 }));
 
 router.put('/:id', catchErrors(async (req, res, next) => {
-  const question = await Question.findById(req.params.id);
+  const contest = await Contest.findById(req.params.id);
 
-  if (!question) {
-    req.flash('danger', 'Not exist question');
+  if (!contest) {
+    req.flash('danger', 'Not exist contest');
     return res.redirect('back');
   }
-  question.title = req.body.title;
-  question.content = req.body.content;
-  question.tags = req.body.tags.split(" ").map(e => e.trim());
+  contest.title = req.body.title;
+  contest.summary = req.body.summary ;
+  contest.objects = req.body.objects;
+  contest.phone = req.body.phone;
+  contest.categori = req.body.categori;
+  contest.organizer = req.body.organizer;
+  contest.tags = req.body.tags.split(" ").map(e => e.trim());
 
-  await question.save();
+  await contest.save();
   req.flash('success', 'Successfully updated');
-  res.redirect('/questions');
+  res.redirect('/contests');
 }));
 
 router.delete('/:id', needAuth, catchErrors(async (req, res, next) => {
-  await Question.findOneAndRemove({_id: req.params.id});
+  await Contest.findOneAndRemove({_id: req.params.id});
   req.flash('success', 'Successfully deleted');
-  res.redirect('/questions');
+  res.redirect('/contests');
 }));
 
 router.post('/', needAuth, catchErrors(async (req, res, next) => {
   const user = req.session.user;
-  var question = new Question({
+  var contest = new Contest({
     title: req.body.title,
     author: user._id,
-    content: req.body.content,
+    summary: req.body.summary,
+    objects: req.body.objects,
+    phone: req.body.phone,
+    categori: req.body.categori,
+    organizer: req.body.organizer,
     tags: req.body.tags.split(" ").map(e => e.trim()),
   });
-  await question.save();
+  await contest.save();
   req.flash('success', 'Successfully posted');
-  res.redirect('/questions');
+  res.redirect('/contests');
 }));
 
 router.post('/:id/answers', needAuth, catchErrors(async (req, res, next) => {
   const user = req.session.user;
-  const question = await Question.findById(req.params.id);
+  const contest = await Contest.findById(req.params.id);
 
-  if (!question) {
-    req.flash('danger', 'Not exist question');
+  if (!contest) {
+    req.flash('danger', 'Not exist contest');
     return res.redirect('back');
   }
 
   var answer = new Answer({
     author: user._id,
-    question: question._id,
+    contest: contest._id,
     content: req.body.content
   });
   await answer.save();
-  question.numAnswers++;
-  await question.save();
+  contest.numAnswers++;
+  await contest.save();
 
   req.flash('success', 'Successfully answered');
-  res.redirect(`/questions/${req.params.id}`);
+  res.redirect(`/contests/${req.params.id}`);
 }));
 
 

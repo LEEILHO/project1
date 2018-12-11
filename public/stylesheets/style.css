@@ -84,14 +84,14 @@ a:hover {
   font-size: 1rem;
   color: #bbb; }
 
-.question {
+.contestzzz {
   line-height: 160%;
   margin-bottom: 1em; }
-  .question .title {
+  .contestzzz .title {
     font-size: 1.3rem; }
-  .question .content {
+  .contestzzz .content {
     color: #aaa; }
-  .question .tags {
+  .contestzzz .tags {
     margin: 0.5em 0; }
 
 .author {
@@ -108,7 +108,7 @@ a:hover {
   font-weight: bold;
   color: #0f5ca6; }
 
-.questions .content {
+.contests .content {
   max-height: 5em;
   overflow: hidden;
   text-overflow: ellipsis; }

@@ -6,10 +6,11 @@ var schema = new Schema({
   author: { type: Schema.Types.ObjectId, ref: 'User' },
   title: {type: String, trim: true, required: true},
   summary: {type: String, trim: true, required: true},
-  organizer : {type: String},
-  categori: {type: String},
-  objects: {type:String},
-  phone: {type: String},
+  organizer : {type: String, trim: true, required: true},
+  categori: {type: String, trim : true, required: true},
+  objects: {type:String, trim: true, required: true},
+  phone: {type: String, trim:true, required: true},
+  tags:[String],
   numLikes: {type: Number, default: 0},
   numAnswers: {type: Number, default: 0},
   numReads: {type: Number, default: 0},
@@ -19,6 +20,6 @@ var schema = new Schema({
   toObject: {virtuals: true}
 });
 schema.plugin(mongoosePaginate);
-var Enroll = mongoose.model('Enroll', schema);
+var contest = mongoose.model('contest', schema);
 
-module.exports = Question;
+module.exports = contest;
