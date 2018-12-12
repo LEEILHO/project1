@@ -1,6 +1,7 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-var Schema = mongoose.Schema;
+const crypto = require('crypto');
+const Schema = mongoose.Schema;
 
 var schema = new Schema({
   name: {type: String, required: true, trim: true},
@@ -12,6 +13,7 @@ var schema = new Schema({
   toJSON: { virtuals: true},
   toObject: {virtuals: true}
 });
+
 schema.methods.generateHash = function(password) {
   return bcrypt.hash(password, 10); // return Promise
 };

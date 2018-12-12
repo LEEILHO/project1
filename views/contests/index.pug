@@ -16,7 +16,7 @@ block content
     if contests.total <= 0 
       .alert.alert-info No contests available yet
     else
-      .contestss
+      .contests
         each contest in contests.docs
           .contest
             a.title(href=`/contests/${contest.id}`)= contest.title

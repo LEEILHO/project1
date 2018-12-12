@@ -1,6 +1,5 @@
 const express = require('express');
 const Contest = require('../models/contest');
-// const User = require('../models/user'); 
 const Answer = require('../models/answer'); 
 const catchErrors = require('../lib/async-error');
 
@@ -16,7 +15,6 @@ function needAuth(req, res, next) {
   }
 }
 
-
 /* GET contests listing. */
 router.get('/', catchErrors(async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
@@ -27,7 +25,7 @@ router.get('/', catchErrors(async (req, res, next) => {
   if (term) {
     query = {$or: [
       {title: {'$regex': term, '$options': 'i'}},
-      {content: {'$regex': term, '$options': 'i'}}
+      {summary: {'$regex': term, '$options': 'i'}}
     ]};
   }
   const contests = await Contest.paginate(query, {
@@ -35,7 +33,7 @@ router.get('/', catchErrors(async (req, res, next) => {
     populate: 'author', 
     page: page, limit: limit
   });
-  res.render('contests/index', {contests: contests, query: req.query});
+  res.render('contests/index', {contests: contests, term: term, query: req.query});
 }));
 
 router.get('/new', needAuth, (req, res, next) => {
@@ -51,6 +49,7 @@ router.get('/:id', catchErrors(async (req, res, next) => {
   const contest = await Contest.findById(req.params.id).populate('author');
   const answers = await Answer.find({contest: contest.id}).populate('author');
   contest.numReads++;    // TODO: 동일한 사람이 본 경우에 Read가 증가하지 않도록???
+  
   await contest.save();
   res.render('contests/show', {contest: contest, answers: answers});
 }));
